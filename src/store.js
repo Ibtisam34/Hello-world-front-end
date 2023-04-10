@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 export const fetchMessage = createAsyncThunk('message/fetchMessage', async () => {
   const response = await fetch('http://localhost:3000/api/v1/messages/random');
   const data = await response.json();
@@ -9,9 +10,9 @@ const messageSlice = createSlice({
   initialState: { message: '' },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchMessage.fulfilled, (state, action) => {
-      state.message = action.payload;
-    });
+    builder.addCase(fetchMessage.fulfilled,
+      (state, action) => ({ ...state, message: action.payload }
+      ));
   },
 });
 export const selectMessage = (state) => state.message.message;
